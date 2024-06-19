@@ -6,7 +6,7 @@ const profileRoutes = require('./routes/profileRoutes');
 
 const express = require('express');
 const app = express();
-const port = 8082;
+const port = process.env.PORT || 5000;
 const mongoose = require('mongoose');
 app.use(express.json());
 // use cors to allow cross origin resource sharing
