@@ -18,7 +18,7 @@ require('dotenv').config()
 // console.log(process.env.port) // remove this after you've confirmed it is work
 
 
-const uri = precess.env.MONGO_URI;
+const uri = process.env.MONGO_URI;
 const  connectDB = async () => {
     try {
         await mongoose.connect(uri);

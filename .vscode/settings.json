@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/f92d2317-0a5b-46d1-a969-5a98d6bc78c7/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/nit-conference",
+    "appService.deploySubpath": "."
+}
