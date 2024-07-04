@@ -1,11 +1,11 @@
-const validator = require("validator");
+ 
 
 const validateRegister = (req, res , next) => {
-    const { firstName, lastName, email, password } = req.body;
-    if (!firstName || !lastName || !email || !password) {
+    const { firstname, lastname, email, password } = req.body;
+    if (!firstname || !lastname || !email || !password) {
         return { message: "Please enter all the fields some are null" };
     }
-    if (firstName == "" || lastName == "" || email == "" || password == "") {
+    if (firstname == "" || lastname == "" || email == "" || password == "") {
         return { message: "Please enter all the fields" };
     } 
     // Check if email is valid
@@ -24,4 +24,4 @@ const validateRegister = (req, res , next) => {
     next();    
 }
 
-module.exports = validateRegister;
+export { validateRegister };

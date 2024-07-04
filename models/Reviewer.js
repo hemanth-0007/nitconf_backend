@@ -1,62 +1,97 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
+import { Role } from "../Enums/role.js";
+import validator from "validator";
 
 const reviewerSchema = new Schema({
-    firstname: {
-        type: String,
-        required: true
+  firstname: {
+    type: String,
+    required: true,
+    validate: {
+      validator: validateName,
+      message: (props) => `${props.value} exceeds the limit of 15 characters!
+                                or it contains special characters!`,
     },
-    lastname: {
-        type: String,
-        required: true
+    // minLength: 15,
+  },
+  lastname: {
+    type: String,
+    required: true,
+    validate: {
+      validator: validateName,
+      message: (props) => `${props.value} exceeds the limit of 15 characters!
+                                or it contains special characters!`,
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true,   // much important
+    // minLength: 15,
+  },
+  email: {
+    type: String,
+    required: true,
+    lowercase: true,
+    immutable: true,
+    validate: {
+      validator: validateEmail,
+      message: (props) => `${props.value} is not a valid email!`,
     },
-    password: {
-        type: String,
-        required: true,
+    unique: true, // much important
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  expert_at: [
+    {
+      type: String,
+      default: [],
+      // minlength: 10,
+      // maxlength: 100
     },
-    expert_at: [{
-        type: String,
-        default: [],
-        // minlength: 10, 
-        // maxlength: 100
-    }],
-    assigned_papers: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Paper',
-        default: [],
-    }],
-    reviewed_papers: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Paper',
-        default: [],
-    }],
-    unreviewed_papers: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Paper',
-        default: [],
-    }],
-    createdAt: {
-        type: Date,
-        default: Date.now
+  ],
+  assigned_papers: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Paper",
+      default: [],
     },
-    role : {
-        type: String,
-        default: Role.REVIEWER,
-        enum: {
-            values: [Role.AUTHOR, Role.REVIEWER, Role.PC_MEMBER],
-            message: '{VALUE} is not supported'
-        },
-        immutable: true,
+  ],
+  reviewed_papers: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Paper",
+      default: [],
     },
+  ],
+  unreviewed_papers: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Paper",
+      default: [],
+    },
+  ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  role: {
+    type: String,
+    default: Role.REVIEWER,
+    immutable: true,
+  },
 });
 
+function validateEmail(email) {
+  // regex for email validation
+  const regex = /\S+@\S+\.\S+/;
+  return regex.test(email);
+}
 
-const Reviewer = mongoose.model('Reviewer', reviewerSchema);
+function validateName(name) {
+  if (name.length > 15) return false;
+  // regex for name validation
+  if (!validator.isAlpha(name, "en-US", { ignore: " " })) return false;
+  return true;
+}
 
- 
-module.exports = Reviewer;
+const Reviewer = mongoose.model("Reviewer", reviewerSchema);
+
+export default Reviewer;

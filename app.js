@@ -1,21 +1,31 @@
 // routes for the application
-const authentication = require('./routes/authentication');
-const paperRoutes = require('./routes/paperRoutes');
-const docRoutes = require('./routes/docRoutes');
-const profileRoutes = require('./routes/profileRoutes');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
-const express = require('express');
-const app = express();
-const port = process.env.PORT || 5000;
-const mongoose = require('mongoose');
-app.use(express.json());
-// use cors to allow cross origin resource sharing
-const cors = require('cors');
-app.use(cors());
+// routes 
+import authRoute from './routes/authRoute.js';
+import paperRoute from './routes/paperRoute.js';
+import docRoute from './routes/docRoute.js';
+import profileRoute from './routes/profileRoute.js';
+import adminRoute from './routes/adminRoute.js';
+import pcMemberRoute from './routes/pcMemberRoute.js';
+import reviewRoute from './routes/reviewRoute.js';
+import reviewerAuthRoute from './routes/reviewerAuthRoute.js';
 
 // configure dotenv to use environment variables
-require('dotenv').config()
+dotenv.config();
 // console.log(process.env.port) // remove this after you've confirmed it is work
+
+
+
+const app = express();
+const port = process.env.PORT || 5000;
+
+app.use(express.json()); 
+app.use(cors());
+
 
 
 const uri = process.env.MONGO_URI;
@@ -31,10 +41,20 @@ const  connectDB = async () => {
 connectDB();
 
 
-app.use('/api/auth', authentication);
-app.use('/api/papers', paperRoutes);
-app.use('/api/docs', docRoutes);
-app.use('/api/user', profileRoutes);
+app.get('/', (req, res) => {
+    res.send('Ok its working');
+});
+
+app.use('/api/auth', authRoute);
+app.use('/api/papers', paperRoute);
+app.use('/api/docs', docRoute);
+app.use('/api/user', profileRoute);
+app.use('/api/admin', adminRoute);
+app.use('/api/pc-member', pcMemberRoute);
+app.use('/api/review', reviewRoute);
+app.use('/api/reviewer', reviewerAuthRoute);
+
+
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

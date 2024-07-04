@@ -4,4 +4,4 @@ const Status = {
     REJECTED : 'REJECTED'
 };
 
-module.exports = Status;
+export { Status };

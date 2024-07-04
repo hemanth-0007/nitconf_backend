@@ -1,5 +1,5 @@
 
-// const validator = require("validator");
+ 
 
 const  validateDuplicatePapers = (userPapers, title) => {
     for (let index = 0; index < userPapers.length; index++) {
@@ -15,5 +15,4 @@ const getProperString = (str) => {
 
 // console.log(" Hemanth venkata   sai".split('').filter(e => e.trim().length).join('').toLowerCase());
 
-module.exports = validateDuplicatePapers;
- 
+export { validateDuplicatePapers };

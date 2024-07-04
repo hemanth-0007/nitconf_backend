@@ -1,5 +1,4 @@
-const middlewareWrapper = require('cors');
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const OtpAuthSchema = new Schema({
@@ -23,4 +22,6 @@ const OtpAuthSchema = new Schema({
     },
 });
 
-module.exports = mongoose.model('OtpAuth', OtpAuthSchema);
+const OtpAuth = mongoose.model('OtpAuth', OtpAuthSchema);
+
+export default OtpAuth;

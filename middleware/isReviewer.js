@@ -1,5 +1,5 @@
 
-const Reviewer = require('../models/Reviewer');
+import Reviewer from "../models/Reviewer.js";
 
 const isReviewer = (req, res, next) => {
     // if the user is a reviewer then call next()
@@ -8,9 +8,10 @@ const isReviewer = (req, res, next) => {
     const reviewer = Reviewer.findOne({ email: email });
     if (reviewer) {
         next();
-    } else {
-        res.status(403).send("Forbidden access");
+    } 
+    else {
+        res.status(403).send({message : "Forbidden access"});
     }
 };
 
-module.exports = isReviewer;
+export { isReviewer};

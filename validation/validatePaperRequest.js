@@ -1,4 +1,4 @@
-const validator = require("validator");
+import validator from 'validator';
 const MAX_TAGS = 5;
 const MIN_DES_LEN = 10;
 const MAX_DES_LEN = 300;
@@ -70,4 +70,4 @@ const getProperString = (str) => {
 
 
 
-module.exports = validatePaperRequest;
+export { validatePaperRequest };

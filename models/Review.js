@@ -1,23 +1,44 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-const reviewSchema = new Schema({
-    body: String,
-    user : {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    },
-    document : {
-        type: Schema.Types.ObjectId,
-        ref: 'Document'
-    },
-    paper : {
-        type: Schema.Types.ObjectId,
-        ref: 'Paper'
-    },
-    reviewer : {
-        type: Schema.Types.ObjectId,
-        ref: 'Reviewer'
-    },
-})
+import validator from "validator";
 
-module.exports = mongoose.model('Review', reviewSchema);
+const reviewSchema = new Schema({
+  body: {
+    type: String,
+    required: true,
+    validate: {
+      validator: validateReview,
+      message: (props) => `${props.value} is longer than 500 characters!
+                            or contains special characters!`,
+    },
+  },
+  rating : {
+    type: Number,
+    required: true,
+    min: [1, "Rating must be between 1 and 10"],
+    max: [10, "Rating must be between 1 and 10"]
+  },
+  document: {
+    type: Schema.Types.ObjectId,
+    ref: "Document",
+    // immutable: true,
+  },
+
+  reviewer: {
+    type: Schema.Types.ObjectId,
+    ref: "Reviewer",
+  },
+});
+
+function validateReview(body) {
+  if (body.length > 500) {
+    return false;
+  }
+  if (!validator.isAlpha(body, "en-US", { ignore: " " })) {
+    return false;
+  }
+  return true;
+}
+
+const Review = mongoose.model("Review", reviewSchema);
+export default Review;

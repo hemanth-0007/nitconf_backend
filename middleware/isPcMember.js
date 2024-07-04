@@ -1,4 +1,5 @@
-const PcMember = require('../models/PcMember');
+import PcMember from '../models/PcMember.js';
+
 // its a middleware to check if the user is a pc member or not
 // will receive the request {}
 const isPcMember = (req, res, next) => {
@@ -13,5 +14,4 @@ const isPcMember = (req, res, next) => {
         res.status(403).send("Forbidden access");
     }
 };
-
-module.exports = isPcMember;
+export default isPcMember;

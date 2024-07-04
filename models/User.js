@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
-const Role = require('../utility/role');
+import {Role} from '../Enums/role.js';
 
 const userSchema = new Schema({
     firstname: {
@@ -16,6 +16,11 @@ const userSchema = new Schema({
         required: true,
         unique: true,     
         immutable: true,
+        lowercase: true,
+        validate:{
+            validator: validateEmail,
+            message: props => `${props.value} is not a valid email!`
+        }
     },
     password: {
         type: String,
@@ -47,8 +52,14 @@ const userSchema = new Schema({
     },
 });
 
+function validateEmail(email){
+    // regex for email validation
+    const regex = /\S+@\S+\.\S+/;
+    return regex.test(email);
+}
+
 
 const User = mongoose.model('User', userSchema);
 
  
-module.exports = User;
+export default User;

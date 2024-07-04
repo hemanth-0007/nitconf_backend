@@ -1,8 +1,7 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
-const Status = require('../utility/status');
-
+import { Status } from '../Enums/status.js';
 
 const paperSchema = new Schema({
     title: {
@@ -53,5 +52,6 @@ const paperSchema = new Schema({
         required : true,
     },
 });
+const Paper = mongoose.model('Paper', paperSchema);
 
-module.exports = mongoose.model('Paper', paperSchema);
+export default Paper;

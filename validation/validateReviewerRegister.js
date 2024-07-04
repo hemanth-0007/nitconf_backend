@@ -1,4 +1,4 @@
-const validator = require('validator');
+import validator from 'validator';
 
 const validateReviewerRegister = (req, res, next) => {};
 
